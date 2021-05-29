@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="https://learn.village88.com/assets/black_ninja-9adea777014ced1d5d36046555cf036c.ico?v=2" type="image/x-icon">
+        <link rel="stylesheet" href="/stylesheets/index.css">
+        <title>Village88 | NodeJS (Express) | Real-Time Colors</title>
+    </head>
+    <body>
+        <section>
+            <button id="green">GREEN</button>
+            <button id="blue">BLUE</button>
+            <button id="pink">PINK</button>
+        </section>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script>
+            $(document).ready(function(){
+                const socket = io();
+
+                $("button").click(function(){
+                    if($(this).attr("id") == "green"){
+                        socket.emit("change_color", {color: "green"});
+                    }
+                    else if($(this).attr("id") == "blue"){
+                        socket.emit("change_color", {color: "blue"});
+                    }
+                    else if($(this).attr("id") == "pink"){
+                        socket.emit("change_color", {color: "pink"});
+                    }
+                });
+
+                socket.on("set_color", data => {
+                    $("body").css({"backgroundColor": `${data.color}`});
+                });
+
+                socket.on("set_prev_color", data => {
+                    $("body").css({"backgroundColor": `${data.color}`});
+                });
+            });
+        </script>
+    </body>
+</html>
